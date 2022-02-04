@@ -29,7 +29,7 @@ const ListBookComponent = () => {
 
     return (
         <div className='container'>
-            <h2 className='text-center'> List Books</h2>
+            <h2 className='text-center'> Book List</h2>
             <Link to= "/add-book" className = "btn btn-primary mb-2">Add Book</Link>
             <table className='table table-bordered table-striped'>
                 <thead>

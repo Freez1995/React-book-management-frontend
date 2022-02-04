@@ -8,13 +8,32 @@ const UpdateBookComponent = () => {
     const [authorName, setAuthorName] = useState("");
     const navigate = useNavigate();
     const {id} = useParams();
-
+    const [bookNameErrorMessages, setBookNameErrorMessages] = useState("");
+    const [authorNameErrorMessages, setAuthorNameErrorMessages] = useState("");
+    const styleObj = {
+        fontSize: 14,
+        color: 'red',
+        marginBottom:10
+    }
     const UpdateBook = (e) => {
         e.preventDefault();
         const updateBook = {id, bookName, authorName}
 
         BookService.updateBook(updateBook).then((response) =>{
-            navigate('/books')
+            if(response.data.status === "OK"){
+                navigate('/books')
+            }else{
+                setBookNameErrorMessages("")
+                setAuthorNameErrorMessages("")
+                for (const errorMessage of response.data.errorMessages) {
+                    if(errorMessage.includes("author")){
+                        setAuthorNameErrorMessages(errorMessage)
+                    }
+                    else if(errorMessage.includes("book")){
+                        setBookNameErrorMessages(errorMessage)
+                    }
+                }               
+            }  
         }).catch(error => {
             console.log(error);
         })
@@ -51,6 +70,7 @@ const UpdateBookComponent = () => {
                                     >
                                     </input>
                                 </div>
+                                {bookNameErrorMessages && <div style={styleObj}>{bookNameErrorMessages}</div>}
                                 <div className='form group mb-2'>
                                     <label className='form-label'>Author Name :</label>
                                     <input
@@ -63,6 +83,7 @@ const UpdateBookComponent = () => {
                                     >
                                     </input>
                                 </div>
+                                {authorNameErrorMessages && <div style={styleObj}>{authorNameErrorMessages}</div>}
                                 <button className='btn btn-success' onClick={(e) => UpdateBook(e)}>Submit</button>
                                 <Link to="/books" className='btn btn-danger ms-2'>Cancel</Link>
                             </form>

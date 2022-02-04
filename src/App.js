@@ -18,6 +18,7 @@ function App() {
               <Route path="/add-book" element={<AddBookComponent/>}/>
               <Route path="/update-book/:id" element={<UpdateBookComponent/>}/>
             </Routes>
+            <div style={{height:60}}></div>
           </div>
         <FooterComponent/>  
       </Router>
